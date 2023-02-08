@@ -1,9 +1,11 @@
+import 'package:admin_dashboard/controllers/menu_controller.dart';
 import 'package:admin_dashboard/layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main(List<String> args) {
+  Get.put(MenuController());
   runApp(const MyApp());
 }
 
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
         ),
         primaryColor: Colors.blue,
       ),
-      home: const SiteLayout(),
+      home: SiteLayout(),
     );
   }
 }
