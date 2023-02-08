@@ -44,8 +44,6 @@ class SideMenu extends StatelessWidget {
 
                   ],
                 ),
-                const SizedBox(height: 40,),
-                Divider(color: lightGray.withOpacity(.1), ),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: sideMenuItems.map((itemName) => 
@@ -62,9 +60,8 @@ class SideMenu extends StatelessWidget {
                           menuController.changeActiveItemTo(itemName);
                           if(ResponsiveWidget.isSmallScreen(context)) {
                             Get.back();
-                            // ignore: todo
-                            //TODO: go to item name route
                           }
+                            navigationController.navigateTo(itemName);
                           }
                       }
                     ))
