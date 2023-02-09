@@ -1,3 +1,4 @@
+import 'package:admin_dashboard/constants/style.dart';
 import 'package:admin_dashboard/controllers/menu_controller.dart';
 import 'package:admin_dashboard/controllers/navigation_controller.dart';
 import 'package:admin_dashboard/layout.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Admin Panel",
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: light,
         textTheme: GoogleFonts.mulishTextTheme(
           Theme.of(context).textTheme,
         ).apply(
