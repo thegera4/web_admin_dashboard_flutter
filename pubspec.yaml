@@ -34,7 +34,7 @@ dependencies:
   get: ^4.6.5
   google_fonts: ^4.0.3
   syncfusion_flutter_charts: ^20.4.49
-  data_table_2: ^2.0.3
+  adaptive_scrollbar: ^2.1.2
 
 
   # The following adds the Cupertino Icons font to your application.
