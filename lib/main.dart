@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
           },
         ),
-        primaryColor: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
       home: const AuthenticationPage(),
     );

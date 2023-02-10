@@ -47,6 +47,9 @@ class AuthenticationPage extends StatelessWidget {
               const SizedBox(height: 15,),
               TextField(
                 decoration: InputDecoration(
+                    focusColor: active,
+                    hoverColor: active,
+                    
                     labelText: "Email",
                     hintText: "abc@domain.com",
                     border: OutlineInputBorder(
