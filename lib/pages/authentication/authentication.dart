@@ -1,7 +1,6 @@
-import 'package:admin_dashboard/layout.dart';
+import 'package:admin_dashboard/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_dashboard/constants/style.dart';
-//import 'package:admin_dashboard/routing/routes.dart';
 import 'package:admin_dashboard/widgets/custom_text.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +26,9 @@ class AuthenticationPage extends StatelessWidget {
                   Expanded(child: Container()),
                 ],
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               Row(
                 children: [
                   Text("Login",
@@ -35,7 +36,9 @@ class AuthenticationPage extends StatelessWidget {
                           fontSize: 30, fontWeight: FontWeight.bold)),
                 ],
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
                   CustomText(
@@ -44,18 +47,21 @@ class AuthenticationPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 15,),
+              const SizedBox(
+                height: 15,
+              ),
               TextField(
                 decoration: InputDecoration(
                     focusColor: active,
                     hoverColor: active,
-                    
                     labelText: "Email",
                     hintText: "abc@domain.com",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
-              const SizedBox(height: 15,),
+              const SizedBox(
+                height: 15,
+              ),
               TextField(
                 obscureText: true,
                 decoration: InputDecoration(
@@ -64,31 +70,33 @@ class AuthenticationPage extends StatelessWidget {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
-              const SizedBox(height: 15,),
+              const SizedBox(
+                height: 15,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
-                      Checkbox(value: true, onChanged: (value){}),
-                      const CustomText(text: "Remeber Me",),
+                      Checkbox(value: true, onChanged: (value) {}),
+                      const CustomText(
+                        text: "Remeber Me",
+                      ),
                     ],
                   ),
-
-                  CustomText(
-                    text: "Forgot password?",
-                    color: active
-                  )
+                  CustomText(text: "Forgot password?", color: active)
                 ],
               ),
-              const SizedBox(height: 15,),
+              const SizedBox(
+                height: 15,
+              ),
               InkWell(
-                onTap: (){
-                  Get.offAll(() => SiteLayout());
+                onTap: () {
+                  Get.offAllNamed(rootRoute);
                 },
                 child: Container(
-                  decoration: BoxDecoration(color: active, 
-                  borderRadius: BorderRadius.circular(20)),
+                  decoration: BoxDecoration(
+                      color: active, borderRadius: BorderRadius.circular(20)),
                   alignment: Alignment.center,
                   width: double.maxFinite,
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -98,15 +106,16 @@ class AuthenticationPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 15,),
-              RichText(text: TextSpan(
-                children: [
-                  const TextSpan(text: "Do not have admin credentials? "),
-                  TextSpan(text: "Request Credentials! ", 
-                  style: TextStyle(color: active))
-                ]
-              ))
-
+              const SizedBox(
+                height: 15,
+              ),
+              RichText(
+                  text: TextSpan(children: [
+                const TextSpan(text: "Do not have admin credentials? "),
+                TextSpan(
+                    text: "Request Credentials! ",
+                    style: TextStyle(color: active))
+              ]))
             ],
           ),
         ),

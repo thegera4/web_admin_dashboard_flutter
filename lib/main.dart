@@ -1,14 +1,17 @@
 import 'package:admin_dashboard/constants/style.dart';
-import 'package:admin_dashboard/controllers/menu_controller.dart';
+import 'package:admin_dashboard/controllers/menu_controller.dart'
+as menu_controller;
 import 'package:admin_dashboard/controllers/navigation_controller.dart';
-//import 'package:admin_dashboard/layout.dart';
+import 'package:admin_dashboard/layout.dart';
+import 'package:admin_dashboard/pages/404/error_page.dart';
 import 'package:admin_dashboard/pages/authentication/authentication.dart';
+import 'package:admin_dashboard/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main(List<String> args) {
-  Get.put(MenuController());
+  Get.put(menu_controller.MenuController());
   Get.put(NavigationController());
   runApp(const MyApp());
 }
@@ -19,6 +22,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialRoute: authenticationPageRoute,
+      //currently, unknownRoute does not work as expected
+      //you need to NOT use '/' as your home route
+      //you can use for example '/home' or '/dashboard' or '/overview'
+      //as your home route. This is a bug with the GetX package
+      unknownRoute: GetPage(name:'/not-found', page:()=>const PageNotFound()),
+      defaultTransition: Transition.leftToRightWithFade,
+      getPages: [
+        GetPage(name: rootRoute, page: () => SiteLayout()),
+        GetPage(
+            name: authenticationPageRoute,
+            page: () => const AuthenticationPage()),
+      ],
       debugShowCheckedModeBanner: false,
       title: "Admin Panel",
       theme: ThemeData(
@@ -36,7 +52,6 @@ class MyApp extends StatelessWidget {
         ),
         primarySwatch: Colors.indigo,
       ),
-      home: const AuthenticationPage(),
     );
   }
 }
