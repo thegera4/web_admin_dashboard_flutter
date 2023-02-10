@@ -1,7 +1,8 @@
 import 'package:admin_dashboard/constants/style.dart';
 import 'package:admin_dashboard/controllers/menu_controller.dart';
 import 'package:admin_dashboard/controllers/navigation_controller.dart';
-import 'package:admin_dashboard/layout.dart';
+//import 'package:admin_dashboard/layout.dart';
+import 'package:admin_dashboard/pages/authentication/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         ),
         primaryColor: Colors.blue,
       ),
-      home: SiteLayout(),
+      home: const AuthenticationPage(),
     );
   }
 }

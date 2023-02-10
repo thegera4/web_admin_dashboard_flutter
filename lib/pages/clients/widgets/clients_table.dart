@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../constants/style.dart';
 import '../../../widgets/custom_text.dart';
 
-class AvailableDriversTable extends StatelessWidget {
-  const AvailableDriversTable({super.key});
+class ClientsTable extends StatelessWidget {
+  const ClientsTable({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,43 +36,30 @@ class AvailableDriversTable extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(bottom: 30),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              const SizedBox(width: 10,),
-              CustomText(
-                text: "Available Drivers",
-                color: lightGray,
-                weight: FontWeight.bold,
-              ),
-            ],
-          ),
-    AdaptiveScrollbar(
-      underColor: Colors.blueGrey.withOpacity(0.3),
-      sliderDefaultColor: active.withOpacity(0.7),
-      sliderActiveColor: active,
-      controller: verticalScrollController,
       child: AdaptiveScrollbar(
-        controller: horizontalScrollController,
-        position: ScrollbarPosition.bottom,
-        underColor: lightGray.withOpacity(0.3),
+        underColor: Colors.blueGrey.withOpacity(0.3),
         sliderDefaultColor: active.withOpacity(0.7),
         sliderActiveColor: active,
-        width: 13.0,
-        sliderHeight: 100.0,
-        child: SingleChildScrollView(
-          controller: verticalScrollController,
-          scrollDirection: Axis.vertical,
+        controller: verticalScrollController,
+        child: AdaptiveScrollbar(
+          controller: horizontalScrollController,
+          position: ScrollbarPosition.bottom,
+          underColor: lightGray.withOpacity(0.3),
+          sliderDefaultColor: active.withOpacity(0.7),
+          sliderActiveColor: active,
+          width: 13.0,
+          sliderHeight: 100.0,
           child: SingleChildScrollView(
-            controller: horizontalScrollController,
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DataTable(
-                  columns: columns,
-                  rows: List<DataRow>.generate( 10,
+            controller: verticalScrollController,
+            scrollDirection: Axis.vertical,
+            child: SingleChildScrollView(
+              controller: horizontalScrollController,
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DataTable(
+                    columns: columns,
+                    rows: List<DataRow>.generate( 10,
                       (index) =>  DataRow(cells: [
                                     const DataCell(CustomText(
                                       text:'John Doe'
@@ -109,7 +96,7 @@ class AvailableDriversTable extends StatelessWidget {
                                         vertical: 6,
                                       ),
                                       child: CustomText(
-                                        text: 'Assign Delivery',
+                                        text: 'Block Client',
                                         color: active.withOpacity(.7),
                                         weight: FontWeight.bold,
                                       ),
@@ -123,8 +110,6 @@ class AvailableDriversTable extends StatelessWidget {
         ),
       ),
     ),
-        ],
-      ),
     );
   }
 }

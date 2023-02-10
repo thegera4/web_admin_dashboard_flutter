@@ -1,5 +1,6 @@
 import 'package:admin_dashboard/constants/controllers.dart';
 import 'package:admin_dashboard/helpers/responsiveness.dart';
+import 'package:admin_dashboard/pages/drivers/widgets/drivers_table.dart';
 import 'package:admin_dashboard/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +25,14 @@ class DriversPage extends StatelessWidget {
                   )
                 )
               ],
-        )))
+        ))),
+        Expanded(
+          child: ListView(
+            children: const [
+              DriversTable(),
+            ],
+          ),
+        ),
       ],
     );
   }

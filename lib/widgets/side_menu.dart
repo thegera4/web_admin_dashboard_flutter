@@ -5,6 +5,7 @@ import 'package:admin_dashboard/widgets/custom_text.dart';
 import 'package:admin_dashboard/widgets/side_menu_item.dart';
 import 'package:get/get.dart';
 import '../helpers/responsiveness.dart';
+import '../pages/authentication/authentication.dart';
 import '../routing/routes.dart';
 
 class SideMenu extends StatelessWidget {
@@ -52,9 +53,7 @@ class SideMenu extends StatelessWidget {
                                 "Log Out" : itemName,
                       onTap: () {
                         if(itemName == authenticationPageroute){
-                          // ignore: todo
-                          //TODO: got to  authentication page
-
+                          Get.offAll(() => const AuthenticationPage());
                         }
                         if (!menuController.isActive(itemName)) {
                           menuController.changeActiveItemTo(itemName);
