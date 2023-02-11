@@ -28,7 +28,6 @@ class _InfoCardState extends State<InfoCard> {
   final CustomersController customersController =
       Get.put(CustomersController());
 
-
   @override
   void initState() {
     super.initState();

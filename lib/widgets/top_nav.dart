@@ -58,6 +58,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
           color: lightGray,
         ),
         const SizedBox(width: 24,),
+        if(!ResponsiveWidget.isSmallScreen(context))
         CustomText(text: "Gerardo Medellin", color: lightGray,),
         const SizedBox(width: 16,),
         Container(

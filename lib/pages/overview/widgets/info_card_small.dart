@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:admin_dashboard/constants/style.dart';
 import 'package:admin_dashboard/widgets/custom_text.dart';
+import 'package:get/get.dart';
+import '../../../controllers/customers_controller.dart';
 
-class InfoCardSmall extends StatelessWidget {
+class InfoCardSmall extends StatefulWidget {
   const InfoCardSmall({
     Key? key,
     required this.title,
@@ -16,34 +18,51 @@ class InfoCardSmall extends StatelessWidget {
   final bool isActive;
   final VoidCallback onTap;
 
+  @override
+  State<InfoCardSmall> createState() => _InfoCardSmallState();
+}
 
+class _InfoCardSmallState extends State<InfoCardSmall> {
+
+  final CustomersController customersController =
+      Get.put(CustomersController());
+
+  @override
+  void initState() {
+    super.initState();
+    customersController.fetchCustomers();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
-        onTap: onTap,
+        onTap: widget.onTap,
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: isActive ? active : lightGray, width: .5),
+            border: Border.all(color: widget.isActive ? active : lightGray, width: .5),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
             CustomText(
-              text: title, 
+              text: widget.title, 
               size: 24, 
               weight: FontWeight.w300, 
-              color: isActive ? active : lightGray,
+              color: widget.isActive ? active : lightGray,
             ),
-            CustomText(
-              text: value, 
+            Obx(() => customersController.customers.isEmpty
+                    ? const CircularProgressIndicator()
+                    :CustomText(
+              text: customersController.customers.length.toString(), 
               size: 24, 
               weight: FontWeight.bold, 
-              color: isActive ? active : dark,
+              color: widget.isActive ? active : dark,
             )
+            ),
 
           ],)
         ),
