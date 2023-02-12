@@ -40,7 +40,7 @@ class _InfoCardSmallState extends State<InfoCardSmall> {
             children: [
               CustomText(
                 text: widget.title, 
-                size: 24, 
+                size: 20, 
                 weight: FontWeight.w300, 
                 color: widget.isActive ? active : lightGray,
               ),
@@ -48,13 +48,13 @@ class _InfoCardSmallState extends State<InfoCardSmall> {
               widget.title == 'Value of stock:' ?
               CustomText(
                 text: formatCurrency(widget.value), 
-                size: 24, 
+                size: 20, 
                 weight: FontWeight.bold, 
                 color: widget.isActive ? active : dark,
               ):
               CustomText(
                 text: widget.value.toString(), 
-                size: 24, 
+                size: 20, 
                 weight: FontWeight.bold, 
                 color: widget.isActive ? active : dark,
               )
