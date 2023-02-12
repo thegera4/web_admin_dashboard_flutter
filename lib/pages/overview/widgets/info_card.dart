@@ -1,8 +1,6 @@
+import 'package:admin_dashboard/helpers/other.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_dashboard/constants/style.dart';
-import 'package:get/get.dart';
-
-import '../../../controllers/customers_controller.dart';
 
 class InfoCard extends StatefulWidget {
   const InfoCard(
@@ -25,15 +23,7 @@ class InfoCard extends StatefulWidget {
 }
 
 class _InfoCardState extends State<InfoCard> {
-  final CustomersController customersController =
-      Get.put(CustomersController());
-
-  @override
-  void initState() {
-    super.initState();
-    customersController.fetchCustomers();
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -48,8 +38,7 @@ class _InfoCardState extends State<InfoCard> {
               BoxShadow(
                   offset: const Offset(0, 6),
                   color: lightGray.withOpacity(.1),
-                  blurRadius: 12)
-            ],
+                  blurRadius: 12)],
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
@@ -64,23 +53,27 @@ class _InfoCardState extends State<InfoCard> {
                 ],
               ),
               Expanded(child: Container()),
-              Obx(() => customersController.customers.isEmpty
-                    ? const CircularProgressIndicator()
-                    : RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(children: [
+              widget.value == 0 ? const CircularProgressIndicator() : 
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(children: [
                           TextSpan(
-                              text: "${widget.title}\n",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: widget.isActive ? active : lightGray)),
+                            text: "${widget.title}\n",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: widget.isActive ? active : lightGray)),
+                          widget.title == "Value of stock:" ?
                           TextSpan(
-                              text: "${customersController.customers.length}",
-                              style: TextStyle(
+                            text: formatCurrency(widget.value),
+                            style: TextStyle(
+                                  fontSize: 40,
+                                  color: widget.isActive ? active : dark)) :
+                          TextSpan(
+                            text: "${widget.value}",
+                            style: TextStyle(
                                   fontSize: 40,
                                   color: widget.isActive ? active : dark)),
                         ])),
-              ),
               Expanded(child: Container()),
             ],
           ),

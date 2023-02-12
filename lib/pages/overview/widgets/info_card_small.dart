@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:admin_dashboard/constants/style.dart';
 import 'package:admin_dashboard/widgets/custom_text.dart';
-import 'package:get/get.dart';
-import '../../../controllers/customers_controller.dart';
+import '../../../helpers/other.dart';
 
 class InfoCardSmall extends StatefulWidget {
   const InfoCardSmall({
@@ -14,7 +13,7 @@ class InfoCardSmall extends StatefulWidget {
   }) : super(key: key);
 
   final String title;
-  final String value;
+  final int value;
   final bool isActive;
   final VoidCallback onTap;
 
@@ -23,15 +22,6 @@ class InfoCardSmall extends StatefulWidget {
 }
 
 class _InfoCardSmallState extends State<InfoCardSmall> {
-
-  final CustomersController customersController =
-      Get.put(CustomersController());
-
-  @override
-  void initState() {
-    super.initState();
-    customersController.fetchCustomers();
-  }
   
   @override
   Widget build(BuildContext context) {
@@ -48,23 +38,28 @@ class _InfoCardSmallState extends State<InfoCardSmall> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-            CustomText(
-              text: widget.title, 
-              size: 24, 
-              weight: FontWeight.w300, 
-              color: widget.isActive ? active : lightGray,
-            ),
-            Obx(() => customersController.customers.isEmpty
-                    ? const CircularProgressIndicator()
-                    :CustomText(
-              text: customersController.customers.length.toString(), 
-              size: 24, 
-              weight: FontWeight.bold, 
-              color: widget.isActive ? active : dark,
-            )
-            ),
-
-          ],)
+              CustomText(
+                text: widget.title, 
+                size: 24, 
+                weight: FontWeight.w300, 
+                color: widget.isActive ? active : lightGray,
+              ),
+              widget.value == 0 ? const CircularProgressIndicator() :
+              widget.title == 'Value of stock:' ?
+              CustomText(
+                text: formatCurrency(widget.value), 
+                size: 24, 
+                weight: FontWeight.bold, 
+                color: widget.isActive ? active : dark,
+              ):
+              CustomText(
+                text: widget.value.toString(), 
+                size: 24, 
+                weight: FontWeight.bold, 
+                color: widget.isActive ? active : dark,
+              )
+            ],
+          )
         ),
       ),
     );
