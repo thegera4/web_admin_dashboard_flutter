@@ -23,8 +23,8 @@ class MenuController extends GetxController {
     switch (itemName) {
       case overViewPageDisplayName:
         return customIcon(Icons.trending_up, itemName);
-      case driversPageDisplayName:
-        return customIcon(Icons.drive_eta, itemName);
+      case productsPageDisplayName:
+        return customIcon(Icons.shopping_bag_outlined, itemName);
       case clientsPageDisplayName:
         return customIcon(Icons.people_alt_outlined, itemName);
       case authenticationDisplayName:

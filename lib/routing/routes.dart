@@ -3,8 +3,8 @@ const rootRoute = "/home";
 const overViewPageDisplayName = "Overview";
 const overViewPageRoute = "/overview";
 
-const driversPageDisplayName = "Drivers";
-const driversPageRoute = "/drivers";
+const productsPageDisplayName = "Products";
+const productsPageRoute = "/products";
 
 const clientsPageDisplayName = "Clients";
 const clientsPageRoute = "/clients";
@@ -12,7 +12,7 @@ const clientsPageRoute = "/clients";
 const authenticationDisplayName = "Log Out";
 const authenticationPageRoute = "/auth";
 
-class MenuItem{
+class MenuItem {
   final String name;
   final String route;
 
@@ -21,7 +21,7 @@ class MenuItem{
 
 List<MenuItem> sideMenuItems = [
   MenuItem(name: overViewPageDisplayName, route: overViewPageRoute),
-  MenuItem(name: driversPageDisplayName, route: driversPageRoute),
+  MenuItem(name: productsPageDisplayName, route: productsPageRoute),
   MenuItem(name: clientsPageDisplayName, route: clientsPageRoute),
   MenuItem(name: authenticationDisplayName, route: authenticationPageRoute),
 ];

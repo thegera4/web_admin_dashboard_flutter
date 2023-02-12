@@ -1,6 +1,5 @@
 import 'package:adaptive_scrollbar/adaptive_scrollbar.dart';
 import 'package:flutter/material.dart';
-
 import '../../../constants/style.dart';
 import '../../../widgets/custom_text.dart';
 
