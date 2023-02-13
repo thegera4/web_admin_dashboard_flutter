@@ -1,9 +1,9 @@
-import 'package:admin_dashboard/constants/controllers.dart';
-import 'package:admin_dashboard/helpers/responsiveness.dart';
-import 'package:admin_dashboard/pages/products/widgets/drivers_table.dart';
-import 'package:admin_dashboard/widgets/custom_text.dart';
+//import 'package:admin_dashboard/constants/controllers.dart';
+//import 'package:admin_dashboard/helpers/responsiveness.dart';
+import 'package:admin_dashboard/pages/products/widgets/products_table.dart';
+//import 'package:admin_dashboard/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+//import 'package:get/get.dart';
 
 class ProductsPage extends StatelessWidget {
   const ProductsPage({super.key});
@@ -12,7 +12,7 @@ class ProductsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Obx((() => Row(
+        /*Obx((() => Row(
               children: [
                 Container(
                     margin: EdgeInsets.only(
@@ -23,11 +23,11 @@ class ProductsPage extends StatelessWidget {
                       weight: FontWeight.bold,
                     ))
               ],
-            ))),
+            ))),*/
         Expanded(
           child: ListView(
             children: const [
-              DriversTable(),
+              ProductsTable(),
             ],
           ),
         ),

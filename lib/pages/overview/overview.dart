@@ -1,4 +1,4 @@
-import 'package:admin_dashboard/constants/controllers.dart';
+//import 'package:admin_dashboard/constants/controllers.dart';
 import 'package:admin_dashboard/helpers/responsiveness.dart';
 import 'package:admin_dashboard/pages/overview/widgets/top_selling_products.dart';
 import 'package:admin_dashboard/pages/overview/widgets/cards_large.dart';
@@ -6,9 +6,9 @@ import 'package:admin_dashboard/pages/overview/widgets/cards_medium.dart';
 import 'package:admin_dashboard/pages/overview/widgets/cards_small.dart';
 import 'package:admin_dashboard/pages/overview/widgets/revenue_section_large.dart';
 import 'package:admin_dashboard/pages/overview/widgets/revenue_section_small.dart';
-import 'package:admin_dashboard/widgets/custom_text.dart';
+//import 'package:admin_dashboard/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+//import 'package:get/get.dart';
 
 class OverviewPage extends StatelessWidget {
   const OverviewPage({super.key});
@@ -17,7 +17,7 @@ class OverviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Obx((() => Row(
+        /*Obx((() => Row(
               children: [
                 Container(
                   margin: EdgeInsets.only(
@@ -30,7 +30,7 @@ class OverviewPage extends StatelessWidget {
                   )
                 )
               ],
-        ))),
+        ))),*/
         Expanded(
           child: ListView(
             children: [

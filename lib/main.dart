@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:admin_dashboard/constants/style.dart';
 import 'package:admin_dashboard/controllers/menu_controller.dart'
 as menu_controller;
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      scrollBehavior: MyCustomScrollBehavior(),
       initialRoute: authenticationPageRoute,
       //currently, unknownRoute does not work as expected
       //you need to NOT use '/' as your home route
@@ -54,4 +57,13 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  // Override behavior methods and getters like dragDevices
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }
