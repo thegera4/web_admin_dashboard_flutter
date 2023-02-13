@@ -1,4 +1,5 @@
 import 'package:admin_dashboard/routing/routes.dart';
+import 'package:admin_dashboard/constants/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_dashboard/constants/style.dart';
 import 'package:admin_dashboard/widgets/custom_text.dart';
@@ -7,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AuthenticationPage extends StatelessWidget {
   const AuthenticationPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,9 +28,7 @@ class AuthenticationPage extends StatelessWidget {
                   Expanded(child: Container()),
                 ],
               ),
-              const SizedBox(
-                height: 30,
-              ),
+              const SizedBox( height: 30, ),
               Row(
                 children: [
                   Text("Login",
@@ -36,9 +36,7 @@ class AuthenticationPage extends StatelessWidget {
                           fontSize: 30, fontWeight: FontWeight.bold)),
                 ],
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox( height: 10, ),
               Row(
                 children: [
                   CustomText(
@@ -47,9 +45,7 @@ class AuthenticationPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 15,
-              ),
+              const SizedBox( height: 15, ),
               TextField(
                 decoration: InputDecoration(
                     focusColor: active,
@@ -59,9 +55,7 @@ class AuthenticationPage extends StatelessWidget {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
-              const SizedBox(
-                height: 15,
-              ),
+              const SizedBox( height: 15, ),
               TextField(
                 obscureText: true,
                 decoration: InputDecoration(
@@ -70,9 +64,7 @@ class AuthenticationPage extends StatelessWidget {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
-              const SizedBox(
-                height: 15,
-              ),
+              const SizedBox( height: 15, ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -92,6 +84,7 @@ class AuthenticationPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
+                  menuController.changeActiveItemTo(overViewPageDisplayName);
                   Get.offAllNamed(rootRoute);
                 },
                 child: Container(
