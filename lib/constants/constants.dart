@@ -8,4 +8,7 @@ class Constants{
   static const String productsCount = "Products count:";
   static const String customerCount = "Customer count:";
 
+  static const String loginOk = "User logged in successfully!";
+  static const String registerOk = "Account created successfully!";
+
 }

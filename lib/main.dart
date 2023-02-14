@@ -8,11 +8,21 @@ import 'package:admin_dashboard/layout.dart';
 import 'package:admin_dashboard/pages/404/error_page.dart';
 import 'package:admin_dashboard/pages/authentication/authentication.dart';
 import 'package:admin_dashboard/routing/routes.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main(List<String> args) {
+void main(List<String> args) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyCpIk1nUIviH0ViMVBiLx9pzkHqi4CjfCw", 
+      appId: "1:607611285447:web:ff201bac1c9e929b59f3e2", 
+      messagingSenderId: "607611285447", 
+      projectId: "flutter-admin-dashboard-f75ed",
+    )
+  );
   Get.put(menu_controller.MenuController());
   Get.put(NavigationController());
   runApp(const MyApp());

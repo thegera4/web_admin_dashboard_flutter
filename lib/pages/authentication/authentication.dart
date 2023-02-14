@@ -1,13 +1,74 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+import 'package:admin_dashboard/constants/constants.dart';
+import 'package:admin_dashboard/controllers/register_controller.dart';
 import 'package:admin_dashboard/routing/routes.dart';
 import 'package:admin_dashboard/constants/controllers.dart';
-import 'package:flutter/material.dart';
 import 'package:admin_dashboard/constants/style.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:admin_dashboard/widgets/custom_text.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+import '../../helpers/authentication.dart';
 
-class AuthenticationPage extends StatelessWidget {
+class AuthenticationPage extends StatefulWidget {
   const AuthenticationPage({Key? key}) : super(key: key);
+
+  @override
+  State<AuthenticationPage> createState() => _AuthenticationPageState();
+}
+
+class _AuthenticationPageState extends State<AuthenticationPage> {
+  final RegisterController registerController = Get.put(RegisterController());
+
+  final FocusNode emailFocus = FocusNode();
+  final FocusNode passwordFocus = FocusNode();
+  final FocusNode usernameFocus = FocusNode();
+
+  bool isLoginScreen = true;
+  bool isEditingEmail = false;
+  bool isEditingPassword = false;
+  bool isEditingUsername = false;
+  bool isRegistering = false;
+  bool isLoggingIn = false;
+
+  String? validateEmail(String value) {
+    value = value.trim();
+    if (registerController.emailController.text.isNotEmpty) {
+      if (value.isEmpty) {
+        return 'Email can\'t be empty';
+      } else if (!value.contains(RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))) {
+        return 'Enter a correct email address';
+      }
+    }
+    return null;
+  }
+
+  String? validatePassword(String value) {
+    value = value.trim();
+    if (registerController.passwordController.text.isNotEmpty) {
+      if (value.isEmpty) {
+        return 'Password can\'t be empty';
+      } else if (value.length < 6) {
+        return 'Password must be at least 6 characters';
+      }
+    }
+    return null;
+  }
+
+  String? validateUsername(String value) {
+    value = value.trim();
+    if (registerController.usernameController!.text.isNotEmpty) {
+      if (value.isEmpty) {
+        return 'Username can\'t be empty';
+      } else if (value.length < 6) {
+        return 'Username must be at least 6 characters';
+      }
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,64 +89,380 @@ class AuthenticationPage extends StatelessWidget {
                   Expanded(child: Container()),
                 ],
               ),
-              const SizedBox( height: 30, ),
+              const SizedBox(
+                height: 30,
+              ),
               Row(
                 children: [
-                  Text("Login",
+                  Text(isLoginScreen ? "Login" : "Create your account",
                       style: GoogleFonts.roboto(
                           fontSize: 30, fontWeight: FontWeight.bold)),
                 ],
               ),
-              const SizedBox( height: 10, ),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
                   CustomText(
-                    text: "Welcome back to the admin panel.",
+                    text: isLoginScreen
+                        ? "Welcome back to the admin panel."
+                        : "Create a your account to access.",
                     color: lightGray,
                   ),
-                ],
-              ),
-              const SizedBox( height: 15, ),
-              TextField(
-                decoration: InputDecoration(
-                    focusColor: active,
-                    hoverColor: active,
-                    labelText: "Email",
-                    hintText: "abc@domain.com",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
-              ),
-              const SizedBox( height: 15, ),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                    labelText: "Password",
-                    hintText: "123",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
-              ),
-              const SizedBox( height: 15, ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Checkbox(value: true, onChanged: (value) {}),
-                      const CustomText(
-                        text: "Remeber Me",
-                      ),
-                    ],
-                  ),
-                  CustomText(text: "Forgot password?", color: active)
                 ],
               ),
               const SizedBox(
                 height: 15,
               ),
+              !isLoginScreen
+                  ? TextField(
+                      focusNode: usernameFocus,
+                      controller: registerController.usernameController,
+                      onChanged: (value) {
+                        setState(() {
+                          isEditingUsername = true;
+                        });
+                      },
+                      decoration: InputDecoration(
+                          focusColor: active,
+                          hoverColor: active,
+                          labelText: "Username",
+                          hintText: "jdoe123",
+                          errorText: isEditingUsername
+                              ? validateUsername(
+                                  registerController.usernameController!.text)
+                              : null,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20))),
+                    )
+                  : const SizedBox(
+                      height: 1,
+                    ),
+              const SizedBox(
+                height: 15,
+              ),
+              TextField(
+                focusNode: emailFocus,
+                controller: registerController.emailController,
+                onChanged: (value) {
+                  setState(() {
+                    isEditingEmail = true;
+                  });
+                },
+                decoration: InputDecoration(
+                    focusColor: active,
+                    hoverColor: active,
+                    labelText: "Email",
+                    hintText: "abc@domain.com",
+                    errorText: isEditingEmail
+                        ? validateEmail(registerController.emailController.text)
+                        : null,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20))),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              TextField(
+                focusNode: passwordFocus,
+                controller: registerController.passwordController,
+                onChanged: (value) {
+                  setState(() {
+                    isEditingPassword = true;
+                  });
+                },
+                obscureText: true,
+                decoration: InputDecoration(
+                    labelText: "Password",
+                    hintText: "123",
+                    errorText: isEditingPassword
+                        ? validatePassword(
+                            registerController.passwordController.text)
+                        : null,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20))),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              isLoginScreen
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Checkbox(value: true, onChanged: (value) {}),
+                            const CustomText(
+                              text: "Remeber Me",
+                            ),
+                          ],
+                        ),
+                        CustomText(text: "Forgot password?", color: active)
+                      ],
+                    )
+                  : const SizedBox(
+                      height: 1,
+                    ),
+              const SizedBox(
+                height: 15,
+              ),
               InkWell(
-                onTap: () {
-                  menuController.changeActiveItemTo(overViewPageDisplayName);
-                  Get.offAllNamed(rootRoute);
+                onTap: () async {
+                  if (!isLoginScreen) {
+                    //if we are in the register screen
+
+                    setState(() {
+                      isRegistering = true;
+                    });
+
+                    //show snackbar if the fields are empty and stop execution
+                    if (registerController.emailController.text.isEmpty ||
+                        registerController.passwordController.text.isEmpty ||
+                        registerController.usernameController!.text.isEmpty) {
+                      var snackbar = const SnackBar(
+                          width:
+                              // ignore: todo
+                              //TODO: for small screens 250 and 500 for large screens
+                              500,
+                          padding: EdgeInsets.all(10),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          duration: Duration(seconds: 3),
+                          dismissDirection: DismissDirection.horizontal,
+                          closeIconColor: Colors.white,
+                          backgroundColor: Colors.redAccent,
+                          content: Center(
+                            child: Text(
+                              "Please fill all the fields!",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                      setState(() {
+                        isRegistering = false;
+                      });
+                      return;
+                    }
+
+                    //show snackbar if the fields are not valid and stop execution
+                    if (validateEmail(registerController.emailController.text) 
+                    != null || 
+                    validatePassword(registerController.passwordController.text)
+                    != null || 
+                    validateUsername(registerController.usernameController!.text)
+                    != null) {
+                      var snackbar = const SnackBar(
+                          width:
+                              // ignore: todo
+                              //TODO: for small screens 250 and 500 for large screens
+                              500,
+                          padding: EdgeInsets.all(10),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          duration: Duration(seconds: 3),
+                          dismissDirection: DismissDirection.horizontal,
+                          closeIconColor: Colors.white,
+                          backgroundColor: Colors.redAccent,
+                          content: Center(
+                            child: Text(
+                              "Please input valid data!",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                      setState(() {
+                        isRegistering = false;
+                      });
+                      return;
+                    }
+
+                    try {
+                      var result = await registerWithEmailPassword(
+                          registerController.emailController.text,
+                          registerController.passwordController.text);
+
+                      var snackbar = SnackBar(
+                          width:
+                              // ignore: todo
+                              //TODO: for small screens 250 and 500 for large screens
+                              500,
+                          padding: const EdgeInsets.all(10),
+                          behavior: SnackBarBehavior.floating,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          duration: const Duration(seconds: 3),
+                          dismissDirection: DismissDirection.horizontal,
+                          closeIconColor: Colors.white,
+                          backgroundColor: 
+                            result != Constants.registerOk
+                                ? Colors.redAccent
+                                : Colors.green,
+                          content: Center(
+                            child: Text(
+                              result,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+
+                      if (result == Constants.registerOk){
+                        isLoginScreen = true;
+                      }
+
+                    } catch (e) {
+                      print(e);
+                      var snackbar = const SnackBar(
+                          width:
+                              // ignore: todo
+                              //TODO: for small screens 250 and 500 for large screens
+                              500,
+                          padding: EdgeInsets.all(10),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          duration: Duration(seconds: 3),
+                          dismissDirection: DismissDirection.horizontal,
+                          closeIconColor: Colors.white,
+                          backgroundColor: Colors.redAccent,
+                          content: Center(
+                            child: Text(
+                              "Error, please try again later!",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    } finally {
+                      setState(() {
+                        isRegistering = false;
+                      });
+                    }
+                  } else {
+                    //if we are in the login screen
+
+                    setState(() {
+                      isLoggingIn = true;
+                    });
+
+                    //show snackbar if the fields are empty and stop execution
+                    if (registerController.emailController.text.isEmpty ||
+                        registerController.passwordController.text.isEmpty) {
+                      var snackbar = const SnackBar(
+                          width:
+                              // ignore: todo
+                              //TODO: for small screens 250 and 500 for large screens
+                              500,
+                          padding: EdgeInsets.all(10),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          duration: Duration(seconds: 3),
+                          dismissDirection: DismissDirection.horizontal,
+                          closeIconColor: Colors.white,
+                          backgroundColor: Colors.redAccent,
+                          content: Center(
+                            child: Text(
+                              "Please fill all the fields!",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                      setState(() {
+                        isLoggingIn = false;
+                      });
+                      return;
+                    }
+
+                    try {
+                      var result = await signInWithEmailPassword(
+                          registerController.emailController.text,
+                          registerController.passwordController.text);
+
+                      var snackbar = SnackBar(
+                          width:
+                              // ignore: todo
+                              //TODO: for small screens 250 and 500 for large screens
+                              500,
+                          padding: const EdgeInsets.all(10),
+                          behavior: SnackBarBehavior.floating,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          duration: const Duration(seconds: 3),
+                          dismissDirection: DismissDirection.horizontal,
+                          closeIconColor: Colors.white,
+                          backgroundColor: result != Constants.loginOk
+                              ? Colors.redAccent
+                              : Colors.green,
+                          content: Center(
+                            child: Text(
+                              result,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+
+                      if( result == Constants.loginOk){
+                        menuController.changeActiveItemTo(overViewPageDisplayName);
+                        Get.offAllNamed(rootRoute);
+                      }
+
+                    } catch (e) {
+                      var snackbar = const SnackBar(
+                          width:
+                              // ignore: todo
+                              //TODO: for small screens 250 and 500 for large screens
+                              500,
+                          padding: EdgeInsets.all(10),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          duration: Duration(seconds: 3),
+                          dismissDirection: DismissDirection.horizontal,
+                          closeIconColor: Colors.white,
+                          backgroundColor: Colors.redAccent,
+                          content: Center(
+                            child: Text(
+                              "Error please check your credentials and try again",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    } finally {
+                      setState(() {
+                        isLoggingIn = false;
+                      });
+                    }
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -93,10 +470,14 @@ class AuthenticationPage extends StatelessWidget {
                   alignment: Alignment.center,
                   width: double.maxFinite,
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: const CustomText(
-                    text: "Login",
-                    color: Colors.white,
-                  ),
+                  child: isRegistering || isLoggingIn
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : CustomText(
+                          text: isLoginScreen ? "Login" : "Register",
+                          color: Colors.white,
+                        ),
                 ),
               ),
               const SizedBox(
@@ -104,11 +485,46 @@ class AuthenticationPage extends StatelessWidget {
               ),
               RichText(
                   text: TextSpan(children: [
-                const TextSpan(text: "Do not have admin credentials? "),
                 TextSpan(
-                    text: "Request Credentials! ",
-                    style: TextStyle(color: active))
-              ]))
+                  text: isLoginScreen
+                      ? "Want to create your own account?   "
+                      : "Already have an account?   ",
+                ),
+                TextSpan(
+                    text: isLoginScreen ? "Register! " : "Log In!",
+                    style: TextStyle(color: active),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        setState(() {
+                          isLoginScreen = !isLoginScreen;
+                        });
+                      })
+              ])),
+              const SizedBox(
+                height: 15,
+              ),
+              isLoginScreen
+                  ? const Center(
+                      child: Text(
+                      "-   Or   -",
+                      style: TextStyle(color: Colors.grey),
+                    ))
+                  : const SizedBox(
+                      height: 1,
+                    ),
+              const SizedBox(
+                height: 15,
+              ),
+              isLoginScreen
+                  ? Center(
+                      child: SignInButton(
+                      Buttons.Google,
+                      text: "Sign in with Google",
+                      onPressed: () {},
+                    ))
+                  : const SizedBox(
+                      height: 1,
+                    ),
             ],
           ),
         ),
