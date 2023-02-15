@@ -68,7 +68,7 @@ Future<String> signOut() async {
   prefs.setBool('auth', false);
   uid = null;
   userEmail = null;
-  return 'User signed out. Good bye!';
+  return Constants.logoutOk;
 }
 
 Future<User?> signInWithGoogle() async {
@@ -98,7 +98,7 @@ Future<User?> signInWithGoogle() async {
   return user;
 }
 
-void signOutGoogle() async {
+Future<String> signOutGoogle() async {
   await googleSignIn.signOut();
   await auth.signOut();
 
@@ -110,5 +110,5 @@ void signOutGoogle() async {
   userEmail = null;
   imageUrl = null;
 
-  print("User signed out of Google account. Good bye!");
+  return Constants.logoutOk;
 }
