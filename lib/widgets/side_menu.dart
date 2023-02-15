@@ -53,6 +53,8 @@ class SideMenu extends StatelessWidget {
                         ? "Log Out"
                         : item.name,
                 onTap: () {
+                  //TODO: add logic to log out from firebase (sigout)
+                  
                   if (item.route == authenticationPageRoute) {
                     menuController.changeActiveItemTo(overViewPageDisplayName);
                     Get.offAllNamed(authenticationPageRoute);
@@ -64,7 +66,9 @@ class SideMenu extends StatelessWidget {
                     }
                     navigationController.navigateTo(item.route);
                   }
-                })).toList(),
+
+                }
+              )).toList(),
           )
         ],
       ),

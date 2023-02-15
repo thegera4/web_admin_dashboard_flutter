@@ -1,4 +1,5 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:admin_dashboard/constants/constants.dart';
 import 'package:admin_dashboard/controllers/register_controller.dart';
 import 'package:admin_dashboard/routing/routes.dart';
@@ -325,10 +326,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       }
 
                     } catch (e) {
-                      print(e);
+
                       var snackbar = const SnackBar(
                           width:
-                              // ignore: todo
                               //TODO: for small screens 250 and 500 for large screens
                               500,
                           padding: EdgeInsets.all(10),
@@ -367,7 +367,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         registerController.passwordController.text.isEmpty) {
                       var snackbar = const SnackBar(
                           width:
-                              // ignore: todo
                               //TODO: for small screens 250 and 500 for large screens
                               500,
                           padding: EdgeInsets.all(10),
@@ -402,7 +401,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
 
                       var snackbar = SnackBar(
                           width:
-                              // ignore: todo
                               //TODO: for small screens 250 and 500 for large screens
                               500,
                           padding: const EdgeInsets.all(10),
@@ -435,7 +433,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     } catch (e) {
                       var snackbar = const SnackBar(
                           width:
-                              // ignore: todo
                               //TODO: for small screens 250 and 500 for large screens
                               500,
                           padding: EdgeInsets.all(10),
