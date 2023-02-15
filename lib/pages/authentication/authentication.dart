@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:admin_dashboard/constants/constants.dart';
 import 'package:admin_dashboard/controllers/register_controller.dart';
 import 'package:admin_dashboard/routing/routes.dart';
@@ -108,9 +107,39 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   CustomText(
                     text: isLoginScreen
                         ? "Welcome back to the admin panel."
-                        : "Create a your account to access.",
+                        : "Create an account to access.",
                     color: lightGray,
                   ),
+                ],
+              ),
+              Row(
+                children: [
+                  CustomText(
+                    text: isLoginScreen
+                        ? "If you do not want to create an account "
+                        : "You can use fake information",
+                    color: lightGray,
+                  ), 
+                ],
+              ),
+              Row(
+                children: [
+                  CustomText(
+                    text: isLoginScreen
+                        ? "you can use the next demo account: "
+                        : "to test the app. The information",
+                    color: lightGray,
+                  ), 
+                ],
+              ),
+              Row(
+                children: [
+                  CustomText(
+                    text: isLoginScreen
+                        ? "test@email.com, 123456"
+                        : "will be stored in Firebase.",
+                    color: lightGray,
+                  ), 
                 ],
               ),
               const SizedBox(
@@ -187,7 +216,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               const SizedBox(
                 height: 15,
               ),
-              isLoginScreen
+              /*isLoginScreen
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -204,7 +233,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     )
                   : const SizedBox(
                       height: 1,
-                    ),
+                    ),*/
               const SizedBox(
                 height: 15,
               ),
