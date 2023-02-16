@@ -16,11 +16,12 @@ import 'package:google_fonts/google_fonts.dart';
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      options: const FirebaseOptions(
-    apiKey: Env.apiKey,
-    appId: Env.apiId,
-    messagingSenderId: Env.messagingSenderId,
-    projectId: Env.projectId,
+    options: const FirebaseOptions(
+      apiKey: Env.apiKey,
+      appId: Env.apiId,
+      messagingSenderId: Env.messagingSenderId,
+      projectId: Env.projectId,
+      authDomain: "flutter-admin-dashboard-f75ed.firebaseapp.com",
   ));
   Get.put(menu_controller.MenuController());
   Get.put(NavigationController());

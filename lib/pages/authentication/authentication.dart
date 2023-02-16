@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:admin_dashboard/constants/constants.dart';
+import 'package:admin_dashboard/controllers/logged_user_controller.dart';
 import 'package:admin_dashboard/controllers/register_controller.dart';
 import 'package:admin_dashboard/routing/routes.dart';
 import 'package:admin_dashboard/constants/controllers.dart';
@@ -20,7 +21,10 @@ class AuthenticationPage extends StatefulWidget {
 }
 
 class _AuthenticationPageState extends State<AuthenticationPage> {
+
   final RegisterController registerController = Get.put(RegisterController());
+
+  final LoggedUserController loggedUserController = Get.put(LoggedUserController());
 
   final FocusNode emailFocus = FocusNode();
   final FocusNode passwordFocus = FocusNode();
@@ -119,7 +123,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         ? "If you do not want to create an account "
                         : "You can use fake information",
                     color: lightGray,
-                  ), 
+                  ),
                 ],
               ),
               Row(
@@ -129,7 +133,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         ? "you can use the next demo account: "
                         : "to test the app. The information",
                     color: lightGray,
-                  ), 
+                  ),
                 ],
               ),
               Row(
@@ -139,7 +143,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         ? "test@email.com, 123456"
                         : "will be stored in Firebase.",
                     color: lightGray,
-                  ), 
+                  ),
                 ],
               ),
               const SizedBox(
@@ -281,12 +285,15 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     }
 
                     //show snackbar if the fields are not valid and stop execution
-                    if (validateEmail(registerController.emailController.text) 
-                    != null || 
-                    validatePassword(registerController.passwordController.text)
-                    != null || 
-                    validateUsername(registerController.usernameController!.text)
-                    != null) {
+                    if (validateEmail(
+                                registerController.emailController.text) !=
+                            null ||
+                        validatePassword(
+                                registerController.passwordController.text) !=
+                            null ||
+                        validateUsername(
+                                registerController.usernameController!.text) !=
+                            null) {
                       var snackbar = const SnackBar(
                           width:
                               // ignore: todo
@@ -335,10 +342,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           duration: const Duration(seconds: 3),
                           dismissDirection: DismissDirection.horizontal,
                           closeIconColor: Colors.white,
-                          backgroundColor: 
-                            result != Constants.registerOk
-                                ? Colors.redAccent
-                                : Colors.green,
+                          backgroundColor: result != Constants.registerOk
+                              ? Colors.redAccent
+                              : Colors.green,
                           content: Center(
                             child: Text(
                               result,
@@ -350,12 +356,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           ));
                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
 
-                      if (result == Constants.registerOk){
+                      if (result == Constants.registerOk) {
                         isLoginScreen = true;
                       }
-
                     } catch (e) {
-
                       var snackbar = const SnackBar(
                           width:
                               //TODO: for small screens 250 and 500 for large screens
@@ -454,11 +458,11 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           ));
                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
 
-                      if( result == Constants.loginOk){
-                        menuController.changeActiveItemTo(overViewPageDisplayName);
+                      if (result == Constants.loginOk) {
+                        menuController
+                            .changeActiveItemTo(overViewPageDisplayName);
                         Get.offAllNamed(rootRoute);
                       }
-
                     } catch (e) {
                       var snackbar = const SnackBar(
                           width:
@@ -546,7 +550,23 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       child: SignInButton(
                       Buttons.Google,
                       text: "Sign in with Google",
-                      onPressed: () {},
+                      onPressed: () {
+                        signInWithGoogle()
+                        .then((result) {
+                          //print(loggedUserController.loggedUser.email);
+                          //print(loggedUserController.loggedUser.name);
+                          //print(loggedUserController.loggedUser.imageUrl);
+                          //print(loggedUserController.loggedUser.uid);
+                          if (result != null) {
+                            menuController
+                            .changeActiveItemTo(overViewPageDisplayName);
+                            Get.offAllNamed(rootRoute);
+                          }
+                        })
+                        .catchError((e) {
+                          print(e);
+                        });
+                      },
                     ))
                   : const SizedBox(
                       height: 1,

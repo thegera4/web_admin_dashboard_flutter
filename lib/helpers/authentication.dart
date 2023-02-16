@@ -3,8 +3,12 @@
 import 'package:admin_dashboard/constants/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../controllers/logged_user_controller.dart';
+import '../models/logged_user.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -94,6 +98,17 @@ Future<User?> signInWithGoogle() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('auth', true);
   }
+
+  //set the user in the getx variable _loggedUser
+  final loggedUser = LoggedUser(
+    uid: uid,
+    email: userEmail,
+    name: name,
+    imageUrl: imageUrl,
+  );
+
+  final loggedUserController = Get.put(LoggedUserController());
+  loggedUserController.loggedUser = loggedUser;
 
   return user;
 }
