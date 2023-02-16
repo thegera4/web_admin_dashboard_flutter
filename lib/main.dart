@@ -1,8 +1,9 @@
 import 'dart:ui';
 import 'package:admin_dashboard/constants/style.dart';
 import 'package:admin_dashboard/controllers/menu_controller.dart'
-as menu_controller;
+    as menu_controller;
 import 'package:admin_dashboard/controllers/navigation_controller.dart';
+import 'package:admin_dashboard/env/env.dart';
 import 'package:admin_dashboard/layout.dart';
 import 'package:admin_dashboard/pages/404/error_page.dart';
 import 'package:admin_dashboard/pages/authentication/authentication.dart';
@@ -11,18 +12,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import './constants/firebase_keys.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: apiKey, 
-      appId: appId,
-      messagingSenderId: messagingSenderId, 
-      projectId: projectId,
-    )
-  );
+      options: const FirebaseOptions(
+    apiKey: Env.apiKey,
+    appId: Env.apiId,
+    messagingSenderId: Env.messagingSenderId,
+    projectId: Env.projectId,
+  ));
   Get.put(menu_controller.MenuController());
   Get.put(NavigationController());
   runApp(const MyApp());
@@ -40,7 +39,8 @@ class MyApp extends StatelessWidget {
       //you need to NOT use '/' as your home route
       //you can use for example '/home' or '/dashboard' or '/overview'
       //as your home route. This is a bug with the GetX package
-      unknownRoute: GetPage(name:'/not-found', page:()=>const PageNotFound()),
+      unknownRoute:
+          GetPage(name: '/not-found', page: () => const PageNotFound()),
       defaultTransition: Transition.leftToRightWithFade,
       getPages: [
         GetPage(name: rootRoute, page: () => SiteLayout()),
