@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 import 'package:admin_dashboard/constants/constants.dart';
 import 'package:admin_dashboard/controllers/logged_user_controller.dart';
 import 'package:admin_dashboard/controllers/register_controller.dart';
@@ -376,9 +376,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       }
                     } catch (e) {
                       var snackbar = const SnackBar(
-                          width:
-                              //TODO: for small screens 250 and 500 for large screens
-                              500,
+                          width: 500,
                           padding: EdgeInsets.all(10),
                           behavior: SnackBarBehavior.floating,
                           shape: RoundedRectangleBorder(
@@ -414,9 +412,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     if (registerController.emailController.text.isEmpty ||
                         registerController.passwordController.text.isEmpty) {
                       var snackbar = const SnackBar(
-                          width:
-                              //TODO: for small screens 250 and 500 for large screens
-                              500,
+                          width: 500,
                           padding: EdgeInsets.all(10),
                           behavior: SnackBarBehavior.floating,
                           shape: RoundedRectangleBorder(
@@ -448,9 +444,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           registerController.passwordController.text);
 
                       var snackbar = SnackBar(
-                          width:
-                              //TODO: for small screens 250 and 500 for large screens
-                              500,
+                          width: 500,
                           padding: const EdgeInsets.all(10),
                           behavior: SnackBarBehavior.floating,
                           shape: const RoundedRectangleBorder(
@@ -480,9 +474,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       }
                     } catch (e) {
                       var snackbar = const SnackBar(
-                          width:
-                              //TODO: for small screens 250 and 500 for large screens
-                              500,
+                          width: 500,
                           padding: EdgeInsets.all(10),
                           behavior: SnackBarBehavior.floating,
                           shape: RoundedRectangleBorder(
@@ -568,10 +560,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       onPressed: () {
                         signInWithGoogle()
                         .then((result) {
-                          //print(loggedUserController.loggedUser.email);
-                          //print(loggedUserController.loggedUser.name);
-                          //print(loggedUserController.loggedUser.imageUrl);
-                          //print(loggedUserController.loggedUser.uid);
+                          print(loggedUserController.loggedUser.email);
+                          print(loggedUserController.loggedUser.name);
+                          print(loggedUserController.loggedUser.imageUrl);
+                          print(loggedUserController.loggedUser.uid);
                           if (result != null) {
                             menuController
                             .changeActiveItemTo(overViewPageDisplayName);
@@ -579,7 +571,27 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           }
                         })
                         .catchError((e) {
-                          print(e);
+                          var snackbar = const SnackBar(
+                          width: 500,
+                          padding: EdgeInsets.all(10),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          duration: Duration(seconds: 3),
+                          dismissDirection: DismissDirection.horizontal,
+                          closeIconColor: Colors.white,
+                          backgroundColor: Colors.redAccent,
+                          content: Center(
+                            child: Text(
+                              "Error, please try again later!",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ));
+                          ScaffoldMessenger.of(context).showSnackBar(snackbar);
                         });
                       },
                     ))

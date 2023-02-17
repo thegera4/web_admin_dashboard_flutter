@@ -57,9 +57,7 @@ class SideMenu extends StatelessWidget {
                   signOut().then((result) => {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                         width:
-                              //TODO: for small screens 250 and 500 for large screens
-                              500,
+                         width: 500,
                           padding: const EdgeInsets.all(10),
                           behavior: SnackBarBehavior.floating,
                           shape: const RoundedRectangleBorder(
@@ -84,9 +82,7 @@ class SideMenu extends StatelessWidget {
                   }).catchError((error) => {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                         width:
-                              //TODO: for small screens 250 and 500 for large screens
-                              500,
+                         width: 500,
                           padding: EdgeInsets.all(10),
                           behavior: SnackBarBehavior.floating,
                           shape: RoundedRectangleBorder(
