@@ -1,7 +1,6 @@
 # Admin panel/dashboard
 
-This is a simple admin dashboard template made with flutter web, but the ios and android apps can easily be created with just some clicks with the same codebase!.
-This project uses the GetX packages for flutter for a complete solution for navigation, http requests and state management, and it is responsive!
+This is a simple web admin dashboard template made with flutter web, but the ios and android apps can easily be created with just some clicks with the same codebase! This project uses the GetX package for flutter for a complete solution in navigation, http requests and state management, and it is responsive! The App was made with Flutter, Dart and it uses some other 3rd party libraries. It also includes authentication with firebase. The demo data comes from different dummy APIs.
 
 ![image](https://user-images.githubusercontent.com/84020433/218221243-b20daffe-3d95-4662-a9d4-e0602ef60b4d.png)
 
