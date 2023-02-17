@@ -36,6 +36,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   bool isEditingUsername = false;
   bool isRegistering = false;
   bool isLoggingIn = false;
+  bool passwordIsVisible = false;
 
   String? validateEmail(String value) {
     value = value.trim();
@@ -206,16 +207,30 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     isEditingPassword = true;
                   });
                 },
-                obscureText: true,
+                obscureText: !passwordIsVisible,
                 decoration: InputDecoration(
-                    labelText: "Password",
-                    hintText: "123",
-                    errorText: isEditingPassword
-                        ? validatePassword(
-                            registerController.passwordController.text)
-                        : null,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          passwordIsVisible = !passwordIsVisible;
+                        });
+                      },
+                      child: Icon(
+                        passwordIsVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: lightGray,
+                      ),
+                    ),
+                  ),
+                  labelText: "Password",
+                  hintText: "123456",
+                  errorText: isEditingPassword ? validatePassword(
+                    registerController.passwordController.text) : null,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20))),
               ),
               const SizedBox(
                 height: 15,

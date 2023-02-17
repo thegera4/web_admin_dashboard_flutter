@@ -18,10 +18,11 @@ void main(List<String> args) async {
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: Env.apiKey,
-      appId: Env.apiId,
+      appId: Env.appId,
       messagingSenderId: Env.messagingSenderId,
       projectId: Env.projectId,
-      authDomain: "flutter-admin-dashboard-f75ed.firebaseapp.com",
+      authDomain: Env.authDomain,
+      storageBucket: Env.storageBucket
   ));
   Get.put(menu_controller.MenuController());
   Get.put(NavigationController());
