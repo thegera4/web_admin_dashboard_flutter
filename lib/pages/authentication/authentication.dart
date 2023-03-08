@@ -1,4 +1,5 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
+// ignore_for_file: use_build_context_synchronously, avoid_print, avoid_web_libraries_in_flutter
+import 'dart:html';
 import 'package:admin_dashboard/constants/constants.dart';
 import 'package:admin_dashboard/controllers/logged_user_controller.dart';
 import 'package:admin_dashboard/controllers/register_controller.dart';
@@ -12,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import '../../helpers/authentication.dart';
+import '../../helpers/custom_auth.dart';
 
 class AuthenticationPage extends StatefulWidget {
   const AuthenticationPage({Key? key}) : super(key: key);
@@ -21,10 +23,10 @@ class AuthenticationPage extends StatefulWidget {
 }
 
 class _AuthenticationPageState extends State<AuthenticationPage> {
-
   final RegisterController registerController = Get.put(RegisterController());
 
-  final LoggedUserController loggedUserController = Get.put(LoggedUserController());
+  final LoggedUserController loggedUserController =
+      Get.put(LoggedUserController());
 
   final FocusNode emailFocus = FocusNode();
   final FocusNode passwordFocus = FocusNode();
@@ -209,28 +211,30 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                 },
                 obscureText: !passwordIsVisible,
                 decoration: InputDecoration(
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          passwordIsVisible = !passwordIsVisible;
-                        });
-                      },
-                      child: Icon(
-                        passwordIsVisible
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        color: lightGray,
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            passwordIsVisible = !passwordIsVisible;
+                          });
+                        },
+                        child: Icon(
+                          passwordIsVisible
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: lightGray,
+                        ),
                       ),
                     ),
-                  ),
-                  labelText: "Password",
-                  hintText: "123456",
-                  errorText: isEditingPassword ? validatePassword(
-                    registerController.passwordController.text) : null,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20))),
+                    labelText: "Password",
+                    hintText: "123456",
+                    errorText: isEditingPassword
+                        ? validatePassword(
+                            registerController.passwordController.text)
+                        : null,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20))),
               ),
               const SizedBox(
                 height: 15,
@@ -310,10 +314,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 registerController.usernameController!.text) !=
                             null) {
                       var snackbar = const SnackBar(
-                          width:
-                              // ignore: todo
-                              //TODO: for small screens 250 and 500 for large screens
-                              500,
+                          width: 500,
                           padding: EdgeInsets.all(10),
                           behavior: SnackBarBehavior.floating,
                           shape: RoundedRectangleBorder(
@@ -340,15 +341,21 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     }
 
                     try {
-                      var result = await registerWithEmailPassword(
+                      //custom auth
+                      var result = await userSignup(
+                        registerController.usernameController!.text,
+                        registerController.emailController.text,
+                        registerController.passwordController.text);
+
+                      var msg = result['msg'];
+
+                      //firebase auth
+                      /*var result = await registerWithEmailPassword(
                           registerController.emailController.text,
-                          registerController.passwordController.text);
+                          registerController.passwordController.text);*/
 
                       var snackbar = SnackBar(
-                          width:
-                              // ignore: todo
-                              //TODO: for small screens 250 and 500 for large screens
-                              500,
+                          width: 500,
                           padding: const EdgeInsets.all(10),
                           behavior: SnackBarBehavior.floating,
                           shape: const RoundedRectangleBorder(
@@ -357,12 +364,16 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           duration: const Duration(seconds: 3),
                           dismissDirection: DismissDirection.horizontal,
                           closeIconColor: Colors.white,
-                          backgroundColor: result != Constants.registerOk
-                              ? Colors.redAccent
-                              : Colors.green,
+                          backgroundColor:
+                              //custom auth
+                              msg != Constants.customRegisterOk
+                                  //firebase auth
+                                  //result != Constants.registerOk
+                                  ? Colors.redAccent
+                                  : Colors.green,
                           content: Center(
                             child: Text(
-                              result,
+                              msg,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -371,7 +382,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           ));
                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
 
-                      if (result == Constants.registerOk) {
+                      //custom auth
+                      if (msg == Constants.customRegisterOk) {
+                        //firebase auth
+                        //if (result == Constants.registerOk) {
                         isLoginScreen = true;
                       }
                     } catch (e) {
@@ -439,9 +453,21 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     }
 
                     try {
-                      var result = await signInWithEmailPassword(
+                      //custom auth
+                      var result = await userLogin(
+                        registerController.emailController.text,
+                        registerController.passwordController.text);
+
+                      var msg = result['msg'];
+                      var token = result['token'];
+
+                      //save token in a cookie
+                      CookieManager().addCookie(Constants.cookieName, token);
+
+                      //firebase auth
+                      /*var result = await signInWithEmailPassword(
                           registerController.emailController.text,
-                          registerController.passwordController.text);
+                          registerController.passwordController.text);*/
 
                       var snackbar = SnackBar(
                           width: 500,
@@ -453,12 +479,16 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           duration: const Duration(seconds: 3),
                           dismissDirection: DismissDirection.horizontal,
                           closeIconColor: Colors.white,
-                          backgroundColor: result != Constants.loginOk
-                              ? Colors.redAccent
-                              : Colors.green,
+                          backgroundColor:
+                              //custom auth
+                              msg != Constants.loginOk
+                                  //firebase auth
+                                  //result != Constants.loginOk
+                                  ? Colors.redAccent
+                                  : Colors.green,
                           content: Center(
                             child: Text(
-                              result,
+                              msg,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -467,9 +497,12 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           ));
                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
 
-                      if (result == Constants.loginOk) {
+                      //custom auth
+                      if (msg == Constants.loginOk) {
+                        //firebase auth
+                        //if (result == Constants.loginOk) {
                         menuController
-                            .changeActiveItemTo(overViewPageDisplayName);
+                        .changeActiveItemTo(overViewPageDisplayName);
                         Get.offAllNamed(rootRoute);
                       }
                     } catch (e) {
@@ -558,39 +591,34 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       Buttons.Google,
                       text: "Sign in with Google",
                       onPressed: () {
-                        signInWithGoogle()
-                        .then((result) {
-                          print(loggedUserController.loggedUser.email);
-                          print(loggedUserController.loggedUser.name);
-                          print(loggedUserController.loggedUser.imageUrl);
-                          print(loggedUserController.loggedUser.uid);
+                        signInWithGoogle().then((result) {
                           if (result != null) {
                             menuController
-                            .changeActiveItemTo(overViewPageDisplayName);
+                                .changeActiveItemTo(overViewPageDisplayName);
                             Get.offAllNamed(rootRoute);
                           }
-                        })
-                        .catchError((e) {
+                        }).catchError((e) {
                           var snackbar = const SnackBar(
-                          width: 500,
-                          padding: EdgeInsets.all(10),
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          duration: Duration(seconds: 3),
-                          dismissDirection: DismissDirection.horizontal,
-                          closeIconColor: Colors.white,
-                          backgroundColor: Colors.redAccent,
-                          content: Center(
-                            child: Text(
-                              "Error, please try again later!",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                              width: 500,
+                              padding: EdgeInsets.all(10),
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
                               ),
-                            ),
-                          ));
+                              duration: Duration(seconds: 3),
+                              dismissDirection: DismissDirection.horizontal,
+                              closeIconColor: Colors.white,
+                              backgroundColor: Colors.redAccent,
+                              content: Center(
+                                child: Text(
+                                  "Error, please try again later!",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ));
                           ScaffoldMessenger.of(context).showSnackBar(snackbar);
                         });
                       },
@@ -603,5 +631,39 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
         ),
       ),
     );
+  }
+}
+
+class CookieManager {
+  static CookieManager manager = CookieManager.getInstance();
+
+  static getInstance() {
+    return manager;
+  }
+
+  void addCookie(String key, String value) {
+    // 2592000 sec = 30 days.
+    document.cookie =
+        "$key=$value; max-age=2592000; path=/; SameSite=Lax; Secure";
+  }
+
+  String getCookie(String name) {
+    String? cookies = document.cookie;
+    List<String> listValues = cookies!.isNotEmpty ? cookies.split(";") : [];
+    String matchVal = "";
+    for (int i = 0; i < listValues.length; i++) {
+      List<String> map = listValues[i].split("=");
+      String key = map[0].trim();
+      String val = map[1].trim();
+      if (name == key) {
+        matchVal = val;
+        break;
+      }
+    }
+    return matchVal;
+  }
+
+  void removeCookie(String name) {
+    document.cookie = "$name=; max-age=0; path=/; SameSite=Lax; Secure";
   }
 }

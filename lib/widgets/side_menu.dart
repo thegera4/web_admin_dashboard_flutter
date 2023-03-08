@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_print
+
 import 'package:admin_dashboard/constants/constants.dart';
 import 'package:admin_dashboard/helpers/authentication.dart';
+import 'package:admin_dashboard/pages/authentication/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_dashboard/constants/controllers.dart';
 import 'package:admin_dashboard/constants/style.dart';
@@ -53,7 +56,13 @@ class SideMenu extends StatelessWidget {
               itemName: item.name == authenticationPageRoute ? "Log Out" : 
                         item.name,
               onTap: () {
+                //remove the cookie
+                CookieManager().removeCookie(Constants.cookieName);
+
                 if (item.route == authenticationPageRoute) {
+                  signOutGoogle()
+                  .then((result) => print(result))
+                  .catchError((error) => print(error));
                   signOut().then((result) => {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
