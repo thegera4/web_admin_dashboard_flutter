@@ -2,7 +2,7 @@ class Constants{
 
   static const String customersUrl = "https://jsonplaceholder.typicode.com/users";
   static const String productsUrl = "https://dummyjson.com/products";
-  static const String localHost = "https://jwt-auth-api-production-2459.up.railway.app";
+  static const String localHost = "https://heroic-achievement-production.up.railway.app/";
 
   static const String totalStock = "Total stock of products:";
   static const String valueOfStock = "Value of stock:";
